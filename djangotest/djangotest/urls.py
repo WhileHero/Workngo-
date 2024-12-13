@@ -24,9 +24,7 @@ from rest_framework import routers
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', home, name='home'),  # Главная страница
-    path('job/<int:pk>/', job_detail, name='job_detail'),
-    path('accounts/', include('accounts.urls')),  # Подключение маршрутов аутентификации
-    path('search/', include('base.urls')),  # Маршруты для поиска вакансий
-    path('profile/', include('profile.urls')),  # Маршруты профиля пользователя
+    path('accounts/', include('accounts.urls')),  # API маршруты для аутентификации
+    path('api/', include('base.urls')),          # API маршруты для работы с вакансиями
+    path('api/profile/', include('profile.urls')), # API маршруты для профиля
 ]

@@ -1,9 +1,11 @@
 // frontend/src/components/JobList/JobList.js
 import React, { useState, useEffect } from 'react';
+import { useAuth } from '../../context/AuthContext';
 // useState - хук для управления состоянием компонента
 // useEffect - хук для выполнения побочных эффектов (например, запросов к API)
 
 function JobList() {
+    const { isAuthenticated } = useAuth();
     // Создаем состояние для хранения списка вакансий
     // jobs - сами данные, setJobs - функция для их обновления
     const [jobs, setJobs] = useState([]);
@@ -26,6 +28,28 @@ function JobList() {
             setJobs(data);
         } catch (error) {
             console.error('Ошибка при получении вакансий:', error);
+        }
+    };
+
+    // Добавляем функцию handleApply
+    const handleApply = async (jobId) => {
+        try {
+            const response = await fetch(`/api/jobs/${jobId}/apply/`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: 'include'
+            });
+
+            if (response.ok) {
+                alert('Вы успешно откликнулись на вакансию!');
+            } else {
+                alert('Произошла ошибка при отклике на вакансию');
+            }
+        } catch (error) {
+            console.error('Ошибка при отклике на вакансию:', error);
+            alert('Произошла ошибка при отклике на вакансию');
         }
     };
 
@@ -52,6 +76,14 @@ function JobList() {
                     <p><strong>Компания:</strong> {job.company}</p>
                     <p><strong>Местоположение:</strong> {job.location}</p>
                     <p>{job.description}</p>
+                    
+                    {/* Некоторые действия доступны только авторизованным пользователям */}
+                    {isAuthenticated() && (
+                        <button onClick={() => handleApply(job.id)}>
+                            Откликнуться
+                        </button>
+                    )}
+                    
                     <a href={`/job/${job.id}`}>Подробнее</a>
                 </div>
             ))}

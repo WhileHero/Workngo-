@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './Auth.css';
 
 function Login() {
+    const { login } = useAuth();
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
         username: '', // Изменено с email на username
@@ -22,18 +24,20 @@ function Login() {
         setError('');
 
         try {
-            const response = await fetch('/api/auth/login/', {
+            const response = await fetch('http://localhost:8800/accounts/login/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'X-CSRFToken': document.cookie.split('csrftoken=')[1]?.split(';')[0],
                 },
-                body: JSON.stringify(formData),
-                credentials: 'include'
+                credentials: 'include',
+                body: JSON.stringify(formData)
             });
 
             const data = await response.json();
 
             if (response.ok) {
+                login(data.user);
                 navigate('/');
             } else {
                 setError(data.message || 'Неверное имя пользователя или пароль');

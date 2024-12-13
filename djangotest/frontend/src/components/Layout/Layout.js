@@ -1,10 +1,11 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './Layout.css';
+import { useAuth } from '../../context/AuthContext';
 
 function Layout({ children }) {
     const location = useLocation();
-    const isAuthenticated = false; // Здесь нужно будет добавить проверку аутентификации
+    const { user, isAuthenticated } = useAuth();
 
     return (
         <div>
@@ -15,7 +16,7 @@ function Layout({ children }) {
                             <li><Link to="/">Главная</Link></li>
                         )}
                         
-                        {isAuthenticated ? (
+                        {isAuthenticated() ? (
                             <>
                                 <li><Link to="/profile">Мой Профиль</Link></li>
                                 <li>

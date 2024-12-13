@@ -5,12 +5,12 @@ import './Auth.css';
 function Register() {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        username: '', // Добавлено поле username
-        email: '',
+        username: '',
         password: '',
         confirmPassword: '',
         firstName: '',
-        lastName: ''
+        lastName: '',
+        patronymic: '', 
     });
     const [error, setError] = useState('');
 
@@ -31,17 +31,17 @@ function Register() {
         }
 
         try {
-            const response = await fetch('/api/auth/register/', {
+            const response = await fetch('http://localhost:8800/accounts/register/', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
-                    username: formData.username, // Добавлено в отправку
-                    email: formData.email,
+                    username: formData.username,
                     password: formData.password,
                     first_name: formData.firstName,
-                    last_name: formData.lastName
+                    last_name: formData.lastName,
+                    patronymic: formData.patronymic 
                 })
             });
 
@@ -65,7 +65,7 @@ function Register() {
                 
                 <form onSubmit={handleSubmit}>
                     <div className="form-group">
-                        <label>Имя пользователя:</label>
+                        <label>Имя пользователя (логин):</label>
                         <input
                             type="text"
                             name="username"
@@ -98,13 +98,12 @@ function Register() {
                     </div>
 
                     <div className="form-group">
-                        <label>Email:</label>
+                        <label>Отчество:</label>
                         <input
-                            type="email"
-                            name="email"
-                            value={formData.email}
+                            type="text"
+                            name="patronymic"
+                            value={formData.patronymic}
                             onChange={handleChange}
-                            required
                         />
                     </div>
 
