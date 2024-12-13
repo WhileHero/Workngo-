@@ -1,0 +1,29 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="search-results">
+        <h2>Результаты поиска</h2>
+        <div class="search-bar">
+            <form method="get" action="{% url 'job_search' %}">
+                <input type="text" name="query" placeholder="Поиск вакансий..." value="{{ query }}">
+                <button type="submit">Поиск</button>
+                {% if query %}
+                    <a href="{% url 'job_search' %}" class="btn-return">Сбросить поиск</a>
+                {% endif %}
+            </form>
+        </div>
+
+        <!-- Отображение вакансий -->
+        {% for job in jobs %}
+            <div class="job">
+                <h3>{{ job.title }}</h3>
+                <p><strong>Компания:</strong> {{ job.company }}</p>
+                <p><strong>Местоположение:</strong> {{ job.location }}</p>
+                <p>{{ job.description }}</p>
+                <a href="{% url 'job_detail' job.id %}">Подробнее</a>
+            </div>
+        {% empty %}
+            <p>Вакансии не найдены.</p>
+        {% endfor %}
+    </div>
+{% endblock %}

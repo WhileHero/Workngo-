@@ -1,0 +1,224 @@
+/* Основной контейнер */
+.layout-container {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: #f8f8f8;
+}
+
+/* Шапка сайта */
+header {
+    background: linear-gradient(to right, #1a1a1a, #333333);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Навигационное меню */
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    position: relative;
+}
+
+/* Стили для ссылок в навигации */
+nav a {
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 1.1rem;
+    padding: 0.5rem 1rem;
+    transition: color 0.2s ease;
+    position: relative;
+}
+
+nav a::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #ff3333;
+    transition: width 0.3s ease;
+}
+
+nav a:hover {
+    color: #ff3333;
+}
+
+nav a:hover::after {
+    width: 100%;
+}
+
+/* Стили для кнопок в навигации */
+nav button {
+    background: linear-gradient(45deg, #ff3333, #ff4d4d);
+    color: white;
+    border: none;
+    padding: 0.8rem 1.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+nav button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 51, 51, 0.2);
+}
+
+nav button:active {
+    transform: translateY(0);
+}
+
+/* Основной контент */
+main {
+    flex: 1;
+    padding: 2rem 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+/* Активная ссылка в навигации */
+nav a.active {
+    color: #ff3333;
+}
+
+nav a.active::after {
+    width: 100%;
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+    nav ul {
+        flex-direction: column;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    nav {
+        padding: 1rem;
+    }
+
+    header {
+        padding: 0.5rem 0;
+    }
+
+    nav button {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* Анимация появления контента */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+main {
+    animation: fadeIn 0.3s ease-out;
+}
+
+/* Стили для выпадающего меню (если понадобится) */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 0;
+    min-width: 200px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(10px);
+    transition: all 0.3s ease;
+}
+
+.dropdown-menu.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    color: #333333;
+    padding: 0.8rem 1.5rem;
+    display: block;
+}
+
+.dropdown-menu a:hover {
+    background: #f5f5f5;
+    color: #ff3333;
+}
+
+/* Разделительная линия в меню */
+.nav-divider {
+    height: 24px;
+    width: 1px;
+    background: rgba(255, 255, 255, 0.2);
+    margin: 0 1rem;
+}
+
+/* Логотип (если понадобится) */
+.logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.logo:hover {
+    color: #ff3333;
+}
+
+/* Индикатор загрузки (если понадобится) */
+.loading-bar {
+    height: 3px;
+    width: 100%;
+    position: absolute;
+    bottom: -3px;
+    left: 0;
+    background: linear-gradient(to right, #ff3333, #ff4d4d);
+    transform-origin: left;
+    animation: loading 1s infinite linear;
+}
+
+@keyframes loading {
+    0% {
+        transform: scaleX(0);
+    }
+    50% {
+        transform: scaleX(0.5);
+    }
+    100% {
+        transform: scaleX(1);
+    }
+}

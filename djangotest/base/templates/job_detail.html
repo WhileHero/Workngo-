@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+    <div class="job-detail">
+        <h2>{{ job.title }}</h2>
+        <p><strong>Компания:</strong> {{ job.company }}</p>
+        <p><strong>Местоположение:</strong> {{ job.location }}</p>
+        <p><strong>Описание:</strong> {{ job.description }}</p>
+        <p><strong>График работы:</strong> {{ job.schedule }}</p>
+        <p><strong>Зарплата:</strong> {{ job.salary }}</p>
+
+        <!-- Проверяем, авторизован ли пользователь -->
+        {% if user.is_authenticated %}
+            <!-- Форма для подачи заявления на вакансию -->
+            <form method="post" action="{% url 'apply_job' job.pk %}">
+                {% csrf_token %}
+                <button type="submit">Подать заявление</button>
+            </form>
+        {% else %}
+            <!-- Сообщение с предложением войти, если пользователь не авторизован -->
+            <p>Пожалуйста, <a href="{% url 'login' %}">войдите</a>, чтобы подать заявление.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,116 @@
+.search-results {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.search-results h2 {
+    color: #1a1a1a;
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    border-bottom: 3px solid #ff3333;
+    padding-bottom: 0.5rem;
+}
+
+.search-bar {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    margin-bottom: 2rem;
+    display: flex;
+    gap: 1rem;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.8rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-color: #ff3333;
+    box-shadow: 0 0 0 2px rgba(255, 51, 51, 0.1);
+}
+
+.search-bar button {
+    background: linear-gradient(45deg, #ff3333, #ff4d4d);
+    color: white;
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 4px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.search-bar button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(255, 51, 51, 0.2);
+}
+
+.job {
+    background: #ffffff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+    border: 1px solid #e0e0e0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.job:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.job h3 {
+    color: #1a1a1a;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.job p {
+    color: #333333;
+    margin-bottom: 0.8rem;
+    line-height: 1.5;
+}
+
+.job strong {
+    color: #1a1a1a;
+    font-weight: 600;
+}
+
+.job a {
+    display: inline-block;
+    margin-top: 1rem;
+    color: #ff3333;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+.job a:hover {
+    color: #cc0000;
+    text-decoration: underline;
+}
+
+/* Добавляем анимацию при появлении результатов */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.job {
+    animation: fadeIn 0.3s ease forwards;
+}

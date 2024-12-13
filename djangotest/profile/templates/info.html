@@ -1,0 +1,87 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="profile-info">
+    <h2>Профиль пользователя</h2>
+    <p><strong>ФИО:</strong> {{ user.info.get_full_name }}</p>
+    
+    <div class="biography-section">
+        <h3>О себе:</h3>
+        <pre id="biography-display" class="biography-text">{{ user.info.biography|default:"Информация отсутствует" }}</pre>
+        
+        <div id="biography-edit" class="biography-edit" style="display: none;">
+            <textarea id="biography-textarea">{{ user.info.biography|default:"" }}</textarea>
+            <div class="edit-buttons">
+                <button onclick="saveBiography()" class="save-btn">Сохранить</button>
+                <button onclick="cancelEdit()" class="cancel-btn">Отменить</button>
+            </div>
+        </div>
+
+        <button onclick="startEdit()" id="edit-btn" class="edit-btn">Редактировать</button>
+    </div>
+
+    <div class="applied-jobs">
+        <h3>Поданные заявления:</h3>
+        {% if user.info.applied_jobs.all %}
+            <ul>
+            {% for job in user.info.applied_jobs.all %}
+                <li>
+                    <a href="{% url 'job_detail' job.pk %}">{{ job.title }}</a> - {{ job.company }}
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <p>Вы еще не подали ни одного заявления.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+let originalBiography = `{{ user.info.biography|default:""|escapejs }}`;
+
+function startEdit() {
+    document.getElementById('biography-display').style.display = 'none';
+    document.getElementById('biography-edit').style.display = 'block';
+    document.getElementById('edit-btn').style.display = 'none';
+    document.getElementById('biography-textarea').value = document.getElementById('biography-display').textContent;
+}
+
+function cancelEdit() {
+    document.getElementById('biography-textarea').value = originalBiography;
+    document.getElementById('biography-display').style.display = 'block';
+    document.getElementById('biography-edit').style.display = 'none';
+    document.getElementById('edit-btn').style.display = 'block';
+}
+
+function saveBiography() {
+    const newBiography = document.getElementById('biography-textarea').value;
+    
+    fetch('{% url "update_biography" %}', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': '{{ csrf_token }}'
+        },
+        body: JSON.stringify({
+            biography: newBiography
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            document.getElementById('biography-display').textContent = newBiography;
+            originalBiography = newBiography;
+            document.getElementById('biography-display').style.display = 'block';
+            document.getElementById('biography-edit').style.display = 'none';
+            document.getElementById('edit-btn').style.display = 'block';
+        } else {
+            alert('Произошла ошибка при сохранении');
+        }
+    })
+    .catch(error => {
+        alert('Произошла ошибка при сохранении');
+        console.error('Error:', error);
+    });
+}
+</script>
+{% endblock %}

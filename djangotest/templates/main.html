@@ -1,0 +1,48 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мой Сайт{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+    <header>
+        <!-- Навигация или другие общие элементы -->
+        <nav>
+            <ul>
+                <!-- Кнопка "Главная" скрывается на странице home -->
+                {% if request.resolver_match.view_name != 'home' %}
+                    <li><a href="{% url 'home' %}">Главная</a></li>
+                {% endif %}
+                
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile_info' %}">Мой Профиль</a></li>
+                    <li>
+                        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">Выход</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <!-- Кнопка "Вход" и "Регистрация" скрываются на соответствующих страницах -->
+                    {% if request.resolver_match.view_name != 'login' %}
+                        <li><a href="{% url 'login' %}">Вход</a></li>
+                    {% endif %}
+                    {% if request.resolver_match.view_name != 'register' %}
+                        <li><a href="{% url 'register' %}">Регистрация</a></li>
+                    {% endif %}
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+</body>
+</html>
